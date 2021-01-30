@@ -49,6 +49,11 @@ def get_menu():
                 href="/dash-earthquake-analysis/visualizacion-3d",
                 className="tab",
             ),
+            dcc.Link(
+                "Relación Otros fenómenos",
+                href="/dash-earthquake-analysis/relacion-otros-fenomenos",
+                className="tab",
+            ),
         ],
         className="row all-tabs",
     )
