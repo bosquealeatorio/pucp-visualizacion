@@ -187,9 +187,9 @@ def MlibCscale_to_Plotly(cbar):
 
 # Make shortcut to Basemap object,
 # not specifying projection type for this example
-from mpl_toolkits.basemap import Basemap
+#from mpl_toolkits.basemap import Basemap
 
-m = Basemap(resolution='i')
+#m = Basemap(resolution='i')
 
 
 # Functions converting coastline/country polygons to lon/lat traces
