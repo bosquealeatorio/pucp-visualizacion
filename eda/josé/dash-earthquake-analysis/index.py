@@ -5,12 +5,8 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 from pages import (
     overview,
-    pricePerformance,
-    portfolioManagement,
-    feesMins,
-    distributions,
-    newsReviews,
-    magnitud)
+      magnitud,
+    visualizacion3D)
 # Connect to main app.py file
 from app import app
 import pandas as pd
@@ -26,28 +22,12 @@ app.config.suppress_callback_exceptions = True
 # Update page
 @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
 def display_page(pathname):
-    if pathname == "/dash-financial-report/price-performance":
-        return pricePerformance.create_layout(app)
-    elif pathname == "/dash-financial-report/portfolio-management":
-        return portfolioManagement.create_layout(app)
-    elif pathname == "/dash-financial-report/fees":
-        return feesMins.create_layout(app)
-    elif pathname == "/dash-financial-report/distributions":
-        return distributions.create_layout(app)
-    elif pathname == "/dash-financial-report/news-and-reviews":
-        return newsReviews.create_layout(app)
-    elif pathname == "/dash-financial-report/magnitud":
+
+    if pathname == "/dash-earthquake-analysis/magnitud":
         return magnitud.layout
-    elif pathname == "/dash-financial-report/full-view":
-        return (
-            overview.create_layout(app),
-            pricePerformance.create_layout(app),
-            portfolioManagement.create_layout(app),
-            feesMins.create_layout(app),
-            distributions.create_layout(app),
-            newsReviews.create_layout(app),
-            magnitud.layout,
-        )
+    elif pathname == "/dash-earthquake-analysis/visualizacion-3d":
+        return visualizacion3D.layout
+
     else:
         return overview.create_layout(app)
 

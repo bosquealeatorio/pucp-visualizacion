@@ -7,11 +7,11 @@ import pathlib
 from app import app
 import numpy as np
 # get relative data folder
-from utils import Header
+from utils import *
+import plotly.graph_objs as go
 
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
-dfg = pd.read_csv(DATA_PATH.joinpath("opsales.csv"))
 dataset = pd.read_csv(DATA_PATH.joinpath("earthquake_mag_animation.csv"))
 years = [str(int(each)) for each in list(dataset.Year.unique())]  # str unique years
 df = px.data.gapminder().query("country=='Canada'")
@@ -36,6 +36,7 @@ layout = html.Div(
             # page 2
             html.Div(
                 [
+
                     # Row
                     # html.Div(
                     #     [
@@ -128,3 +129,5 @@ def update_figure(selected_year):
                          )
     fig.update_layout(layout)
     return fig
+
+
