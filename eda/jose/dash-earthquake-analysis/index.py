@@ -31,7 +31,7 @@ def display_page(pathname):
         return visualizacion_3D.layout
     elif pathname == "/dash-earthquake-analysis/relacion-otros-fenomenos":
         return relacion_otros_fenomenos.layout
-    elif pathname == "/dash-financial-report/exploration":
+    elif pathname == "/dash-earthquake-analysis/exploration":
         return exploration.create_layout(app)
     else:
         return overview.create_layout(app)

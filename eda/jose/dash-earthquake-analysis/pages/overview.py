@@ -3,6 +3,7 @@ import dash_html_components as html
 import plotly.graph_objs as go
 
 from utils import Header, make_dash_table
+import plotly.express as px
 
 import pandas as pd
 import pathlib
@@ -10,6 +11,39 @@ import pathlib
 # get relative data folder
 PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("../data").resolve()
+
+#Dataset de gráfico de terrememotos x magnitud a lo largo del tiempo
+dataset = pd.read_csv(DATA_PATH.joinpath("earthquakes-prec.csv"))
+px.set_mapbox_access_token("pk.eyJ1Ijoiam9zZWJsZXgiLCJhIjoiY2trZ3U3MjBpMDk1ODJxczdsY3o4eHlociJ9.aIZv4zfwVt3XcUCiIefVVQ")
+
+#FIGURA DE DISTRIBUCIÓN DE TERRMOTOS
+fig_distribucion = px.scatter_mapbox(dataset[dataset["Mag"].notna()], lat="Latitude", lon="Longitude", size="Mag",
+                        color="Mag"
+                        , color_continuous_scale=px.colors.cyclical.IceFire, size_max=12
+
+                        , zoom=1)
+
+#HEATMAP MEAN MAP
+
+df=dataset.get(['ISO_APLHA','Country','Mag']).groupby(['ISO_APLHA','Country']).mean().reset_index()
+fig_heatmap = px.choropleth(df, locations="ISO_APLHA",
+                        color='Mag', # lifeExp is a column of gapminder
+                        hover_name="Country", # column to add to hover information
+                        color_continuous_scale=px.colors.cyclical.IceFire)
+
+#HEATMAP SUM MAP
+df2 = dataset.get(['ISO_APLHA', 'Country', 'Damage ($Mil)']).groupby(['ISO_APLHA', 'Country']).sum().reset_index()
+fig_heatmap2 = px.choropleth(df2, locations="ISO_APLHA",
+                    color='Damage ($Mil)',  # lifeExp is a column of gapminder
+                    hover_name="Country",  # column to add to hover information
+                    color_continuous_scale=px.colors.sequential.Cividis_r)
+
+#HEATMAP SUM MAP DEATHS
+df3 = dataset.get(['ISO_APLHA', 'Country', 'Total Deaths']).groupby(['ISO_APLHA', 'Country']).sum().reset_index()
+fig_heatmap3 = px.choropleth(df3, locations="ISO_APLHA",
+                    color='Total Deaths',  # lifeExp is a column of gapminder
+                    hover_name="Country",  # column to add to hover information
+                    color_continuous_scale=px.colors.sequential.Cividis_r)
 
 
 
@@ -21,241 +55,75 @@ def create_layout(app):
             # page 1
             html.Div(
                 [
-
-                    # Row 1
                     html.Div(
                         [
                             html.Div(
                                 [
-                                    html.H6(
-                                        ["Fund Facts"], className="subtitle padded"
-                                    ),
-                                ],
-                                className="six columns",
-                            ),
-                            html.Div(
-                                [
-                                    html.H6(
-                                        "Average annual performance",
-                                        className="subtitle padded",
-                                    ),
-                                    dcc.Graph(
-                                        id="graph-1",
-                                        figure={
-                                            "data": [
-                                                go.Bar(
-                                                    x=[
-                                                        "1 Year",
-                                                        "3 Year",
-                                                        "5 Year",
-                                                        "10 Year",
-                                                        "41 Year",
-                                                    ],
-                                                    y=[
-                                                        "21.67",
-                                                        "11.26",
-                                                        "15.62",
-                                                        "8.37",
-                                                        "11.11",
-                                                    ],
-                                                    marker={
-                                                        "color": "#97151c",
-                                                        "line": {
-                                                            "color": "rgb(255, 255, 255)",
-                                                            "width": 2,
-                                                        },
-                                                    },
-                                                    name="Calibre Index Fund",
-                                                ),
-                                                go.Bar(
-                                                    x=[
-                                                        "1 Year",
-                                                        "3 Year",
-                                                        "5 Year",
-                                                        "10 Year",
-                                                        "41 Year",
-                                                    ],
-                                                    y=[
-                                                        "21.83",
-                                                        "11.41",
-                                                        "15.79",
-                                                        "8.50",
-                                                    ],
-                                                    marker={
-                                                        "color": "#dddddd",
-                                                        "line": {
-                                                            "color": "rgb(255, 255, 255)",
-                                                            "width": 2,
-                                                        },
-                                                    },
-                                                    name="S&P 500 Index",
-                                                ),
-                                            ],
-                                            "layout": go.Layout(
-                                                autosize=False,
-                                                bargap=0.35,
-                                                font={"family": "Raleway", "size": 10},
-                                                height=200,
-                                                hovermode="closest",
-                                                legend={
-                                                    "x": -0.0228945952895,
-                                                    "y": -0.189563896463,
-                                                    "orientation": "h",
-                                                    "yanchor": "top",
-                                                },
-                                                margin={
-                                                    "r": 0,
-                                                    "t": 20,
-                                                    "b": 10,
-                                                    "l": 10,
-                                                },
-                                                showlegend=True,
-                                                title="",
-                                                width=330,
-                                                xaxis={
-                                                    "autorange": True,
-                                                    "range": [-0.5, 4.5],
-                                                    "showline": True,
-                                                    "title": "",
-                                                    "type": "category",
-                                                },
-                                                yaxis={
-                                                    "autorange": True,
-                                                    "range": [0, 22.9789473684],
-                                                    "showgrid": True,
-                                                    "showline": True,
-                                                    "title": "",
-                                                    "type": "linear",
-                                                    "zeroline": False,
-                                                },
-                                            ),
-                                        },
-                                        config={"displayModeBar": False},
-                                    ),
-                                ],
-                                className="six columns",
-                            ),
-                        ],
-                        className="row",
-                        style={"margin-bottom": "35px"},
-                    ),
-                    # Row 5
-                    html.Div(
-                        [
-                            html.Div(
-                                [
-                                    html.H6(
-                                        "Hypothetical growth of $10,000",
-                                        className="subtitle padded",
-                                    ),
-                                    dcc.Graph(
-                                        id="graph-2",
-                                        figure={
-                                            "data": [
-                                                go.Scatter(
-                                                    x=[
-                                                        "2008",
-                                                        "2009",
-                                                        "2010",
-                                                        "2011",
-                                                        "2012",
-                                                        "2013",
-                                                        "2014",
-                                                        "2015",
-                                                        "2016",
-                                                        "2017",
-                                                        "2018",
-                                                    ],
-                                                    y=[
-                                                        "10000",
-                                                        "7500",
-                                                        "9000",
-                                                        "10000",
-                                                        "10500",
-                                                        "11000",
-                                                        "14000",
-                                                        "18000",
-                                                        "19000",
-                                                        "20500",
-                                                        "24000",
-                                                    ],
-                                                    line={"color": "#97151c"},
-                                                    mode="lines",
-                                                    name="Calibre Index Fund Inv",
-                                                )
-                                            ],
-                                            "layout": go.Layout(
-                                                autosize=True,
-                                                title="",
-                                                font={"family": "Raleway", "size": 10},
-                                                height=200,
-                                                width=340,
-                                                hovermode="closest",
-                                                legend={
-                                                    "x": -0.0277108433735,
-                                                    "y": -0.142606516291,
-                                                    "orientation": "h",
-                                                },
-                                                margin={
-                                                    "r": 20,
-                                                    "t": 20,
-                                                    "b": 20,
-                                                    "l": 50,
-                                                },
-                                                showlegend=True,
-                                                xaxis={
-                                                    "autorange": True,
-                                                    "linecolor": "rgb(0, 0, 0)",
-                                                    "linewidth": 1,
-                                                    "range": [2008, 2018],
-                                                    "showgrid": False,
-                                                    "showline": True,
-                                                    "title": "",
-                                                    "type": "linear",
-                                                },
-                                                yaxis={
-                                                    "autorange": False,
-                                                    "gridcolor": "rgba(127, 127, 127, 0.2)",
-                                                    "mirror": False,
-                                                    "nticks": 4,
-                                                    "range": [0, 30000],
-                                                    "showgrid": True,
-                                                    "showline": True,
-                                                    "ticklen": 10,
-                                                    "ticks": "outside",
-                                                    "title": "$",
-                                                    "type": "linear",
-                                                    "zeroline": False,
-                                                    "zerolinewidth": 4,
-                                                },
-                                            ),
-                                        },
-                                        config={"displayModeBar": False},
-                                    ),
-                                ],
-                                className="six columns",
-                            ),
-                            html.Div(
-                                [
-                                    html.H6(
-                                        "Price & Performance (%)",
-                                        className="subtitle padded",
-                                    ),
-                                ],
-                                className="six columns",
-                            ),
-                            html.Div(
-                                [
-                                    html.H6(
-                                        "Risk Potential", className="subtitle padded"
-                                    ),
+                                    html.Div([
+                                        html.H5('Distribución de terremotos',
+                                                style={"textAlign": "center"}, className="subtitle padded"),
+                                        dcc.Graph(id='my-map-1', figure=fig_distribucion, style={'width': '600', 'height': '500'}),
 
+                                    ])
                                 ],
-                                className="six columns",
-                            ),
+                                className="twelve columns",
+                            )
                         ],
                         className="row ",
                     ),
+                    # Row
+
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div([
+                                        html.H5('Mapa de calor por país de terremotos por magnitud promedio',
+                                                style={"textAlign": "center"}, className="subtitle padded"),
+                                         dcc.Graph(id='graph-heatmap', figure=fig_heatmap,
+                                                   style={'width': '600', 'height': '500'}),
+
+                                    ])
+                                ],
+                                className="twelve columns",
+                            )
+                        ],
+                        className="row ",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div([
+                                        html.H5('Mapa de calor por país de terremotos con mayores perdidas económicas',
+                                                style={"textAlign": "center"}, className="subtitle padded"),
+                                        dcc.Graph(id='graph-heatmap', figure=fig_heatmap2,
+                                                  style={'width': '600', 'height': '500'}),
+
+                                    ])
+                                ],
+                                className="twelve columns",
+                            )
+                        ],
+                        className="row ",
+                    ),
+                    html.Div(
+                        [
+                            html.Div(
+                                [
+                                    html.Div([
+                                        html.H5('Mapa de calor por país de terremotos con mayores perdidas humanas',
+                                                style={"textAlign": "center"}, className="subtitle padded"),
+                                        dcc.Graph(id='graph-heatmap', figure=fig_heatmap3,
+                                                  style={'width': '600', 'height': '500'}),
+
+                                    ])
+                                ],
+                                className="twelve columns",
+                            )
+                        ],
+                        className="row ",
+                    )
                 ],
                 className="sub_page",
             ),

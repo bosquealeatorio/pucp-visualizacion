@@ -40,18 +40,23 @@ def get_menu():
                 className="tab first",
             ),
             dcc.Link(
+                "Exploración",
+                href="/dash-earthquake-analysis/exploration",
+                className="tab",
+            ),
+            dcc.Link(
                 "Magnitud",
                 href="/dash-earthquake-analysis/magnitud",
                 className="tab",
             ),
             dcc.Link(
-                "Visualización 3D",
-                href="/dash-earthquake-analysis/visualizacion-3d",
+                "Relación con otros fenómenos",
+                href="/dash-earthquake-analysis/relacion-otros-fenomenos",
                 className="tab",
             ),
             dcc.Link(
-                "Relación Otros fenómenos",
-                href="/dash-earthquake-analysis/relacion-otros-fenomenos",
+                "Visualización 3D",
+                href="/dash-earthquake-analysis/visualizacion-3d",
                 className="tab",
             ),
         ],
@@ -87,7 +92,7 @@ def Etopo(lon_area, lat_area, resolution):
 
     # Read NetCDF data
     #data = Dataset(DATA_PATH.joinpath("ETOPO1_Ice_g_gdal.grd"), "r")
-    data = Dataset("D:/DIPLOMADO_IA/DATA_VISUALIZATION/TRABAJO_FINAL/repo/pucp-visualizacion/eda/jose/dash-earthquake-analysis/data/ETOPO1_Ice_g_gdal.grd", "r")
+    data = Dataset("D:/DIPLOMADO_IA/DATA_VISUALIZATION/TRABAJO_FINAL/pucp-visualizacion/eda/jose/dash-earthquake-analysis/data/ETOPO1_Ice_g_gdal.grd", "r")
 
     # Get data
     lon_range = data.variables['x_range'][:]
@@ -192,9 +197,9 @@ def MlibCscale_to_Plotly(cbar):
 
 # Make shortcut to Basemap object,
 # not specifying projection type for this example
-#from mpl_toolkits.basemap import Basemap
+from mpl_toolkits.basemap import Basemap
 
-#m = Basemap(resolution='i')
+m = Basemap(resolution='i')
 
 
 # Functions converting coastline/country polygons to lon/lat traces

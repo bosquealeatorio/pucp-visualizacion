@@ -53,7 +53,11 @@ def create_layout(app):
             html.Div(
                 [
                     # years slider
-
+                   html.H5(
+                        "Paises con mayor número de terremotos ",
+                        className="subtitle padded",
+                        style={"textAlign": "center"}
+                    ),
                     html.Div([
                         html.H6(id='output-container-range-slider'),
                         dcc.RangeSlider(
@@ -73,8 +77,9 @@ def create_layout(app):
                     # tsunamis and earthquake magnitude
                     html.Div(
                         [
-                            html.H6(
-                                "Influence of magnitude in tsunamis",
+                            html.H5(
+                                "Influencia de magnitudes en tsunamis",
+                                style={"textAlign": "center"},
                                 className="subtitle padded",
                             ),
                             dcc.Graph(
@@ -169,6 +174,6 @@ def update_range(value):
     fig = px.bar(df_counts, x='Country', y='Quantity')
     fig.update_traces()
 
-    return (fig, f'Start year: {value[0]}           End year: {value[1]}')
+    return (fig, f'Rango de inicio: {value[0]}           Rango de Fin: {value[1]}')
 
 

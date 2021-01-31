@@ -80,13 +80,15 @@ layout = html.Div(
                             html.Div([
                             html.H5('Terremotos por magnitud a lo largo del tiempo', style={"textAlign": "center"},className="subtitle padded"),
                             dcc.Graph(id='my-map', figure={},style={'width': '600', 'height': '500'}),
-                            html.Div(id='slider-output'),
+                            html.Div(id='slider-output',  style={'font-size': '14px'}
+),
                             dcc.Slider(
                                 id='year-slider',
                                 min=dataset['Year'].min(),
                                 max=dataset['Year'].max(),
                                 value=dataset['Year'].min(),
                                 marks={str(year): str(year) for year in dataset['Year'].unique()},
+
                                 step=None
                             )
 ])
@@ -96,7 +98,7 @@ layout = html.Div(
                         ],
                         className="row ",
                     ),
-   # Row
+                 # Row
 
                     html.Div(
                         [

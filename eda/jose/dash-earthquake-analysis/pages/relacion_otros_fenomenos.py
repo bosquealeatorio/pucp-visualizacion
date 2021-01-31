@@ -72,22 +72,22 @@ layout = html.Div(
             # page 2
             html.Div(
                 [
-                       # Row
-                    html.Div(
-                        [
-                            html.Div(
-                                [
-                            html.Div([
-                            html.H5('Relación entre intensidad de terremotos e intensidad de terremotos con tsunamis a lo largo del tiempo ', style={"textAlign": "center"},className="subtitle padded"),
-                            dcc.Graph(id='graph-mag-terr-tsu', figure=fig_mag_terrem_vs_tsu,style={'width': '600', 'height': '500'}),
-
-])
-                                ],
-                                className="twelve columns",
-                            )
-                        ],
-                        className="row ",
-                    ),
+#                        # Row
+#                     html.Div(
+#                         [
+#                             html.Div(
+#                                 [
+#                             html.Div([
+#                             html.H5('Relación entre intensidad de terremotos e intensidad de terremotos con tsunamis a lo largo del tiempo ', style={"textAlign": "center"},className="subtitle padded"),
+#                             dcc.Graph(id='graph-mag-terr-tsu', figure=fig_mag_terrem_vs_tsu,style={'width': '600', 'height': '500'}),
+#
+# ])
+#                                 ],
+#                                 className="twelve columns",
+#                             )
+#                         ],
+#                         className="row ",
+#                     ),
                     #Row
                     html.Div(
                         [
